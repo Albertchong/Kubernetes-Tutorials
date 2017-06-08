@@ -6,7 +6,7 @@
 A lightweight Linux operating system designed for clustered deployments providing automation, security, and scalability for most critical applications.
 
 <img src="https://coreos.com/assets/images/svg/distro1.svg" width="500">
-<img src="images/1/distro2.svg" width="500">
+<img src="https://coreos.com/assets/images/svg/distro2.svg" width="500">
 
 So basically execpt some core part of the Linux distrobution, like the **kernel**, **systemd**, **sshd**, **docker**, **rkt** those which will be pre-installed in the CoreOS container linux, the others app all will be deployed as a container , even **ping**.
 
