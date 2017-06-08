@@ -1,6 +1,6 @@
 ## Kubernetes Tutorials (1)
 
-# How to install CoreOS Container Linux in the Barematel/VM
+# How to install CoreOS Container Linux in the BareMetal/VM
 
 ## What is CoreOS Container Linux and Why
 A lightweight Linux operating system designed for clustered deployments providing automation, security, and scalability for most critical applications.
@@ -8,12 +8,12 @@ A lightweight Linux operating system designed for clustered deployments providin
 <img src="https://coreos.com/assets/images/svg/distro1.svg" width="500">
 <img src="https://coreos.com/assets/images/svg/distro2.svg" width="500">
 
-So basically execpt some core part of the Linux distrobution, like the **kernel**, **systemd**, **sshd**, **docker**, **rkt** those which will be pre-installed in the CoreOS container linux, the others app all will be deployed as a container , even **ping**.
+So basically except some core part of the Linux distribution, like the **kernel**, **systemd**, **sshd**, **docker**, **rkt** those which will be pre-installed in the CoreOS container linux, the others app all will be deployed as a container , even **ping**.
 
 ___
 ## Environment Preparation 
 
-### Requirment
+### Requirement
 
     -   VM on ESXi
     -   CentOS 7 live CD
@@ -21,11 +21,11 @@ ___
 
 ### Prepare the VM on ESXi
 
-For VMware announced in May 2016 that the Legacy C# Client (aka thick client, desktop client, or vSphere Client) will no longer be available with the vSphere 6.5 release. For more information, see [Goodbye vSphere Client for Windows (C#) – Hello HTML5](https://blogs.vmware.com/vsphere/2016/05/goodbye-vsphere-client-for-windows-c-hello-html5.html).
+For VMWare announced in May 2016 that the Legacy C# Client (aka thick client, desktop client, or vSphere Client) will no longer be available with the vSphere 6.5 release. For more information, see [Goodbye vSphere Client for Windows (C#) – Hello HTML5](https://blogs.vmware.com/vsphere/2016/05/goodbye-vsphere-client-for-windows-c-hello-html5.html).
 
-**For the Operation is Much  Much different with the vsphere we used before, I'd like to spend some words to explain how to using the ESXi 6.5 web client** 
+**For the Operation is Much  Much different with the vSphere we used before, I'd like to spend some words to explain how to using the ESXi 6.5 web client** 
 
-Let's Open the Vsphere Web Clinet (Using firefox get the better experience than the Chrome ).
+Let's Open the vSphere Web Client (Using firefox get the better experience than the Chrome ).
 
 <img src="images/1/esxi_web_client.png" width="500">
 
@@ -33,7 +33,7 @@ Let's Open the Vsphere Web Clinet (Using firefox get the better experience than 
 
 <img src="images/1/esxi_host_resource.png" width="275">
 
-There are already 9 VMs runing on the host now.
+There are already 9 VMs running on the host now.
 
 <img src="images/1/existed_vms.png" Height="300" width="900">
 
@@ -41,7 +41,7 @@ There are already 9 VMs runing on the host now.
 
 <img src="images/1/new_vm.png" Height="300" width="600">
 
-VMware ESXi 6.5 offical support the CoreOS Linux Guest OS Version.
+VMWare ESXi 6.5 official support the CoreOS Linux Guest OS Version.
 
 <img src="images/1/select_os.png" Height="300">
 
@@ -65,14 +65,14 @@ Select VM specs, we will using :
 
 ### start the VM
 
-Now you have a runing VM with [CentOS 7 liveCD GNOME](https://buildlogs.centos.org/centos/7/isos/x86_64)
+Now you have a running VM with [CentOS 7 liveCD GNOME](https://buildlogs.centos.org/centos/7/isos/x86_64)
 
 <img src="images/1/start_vm.png" Height="450">
 
 
 ---
 ## Prepare the SSH key
-Using below command to genertate the ssh key, you can change the email address after the "-C" argment to the maintainer's email address.
+Using below command to generate the ssh key, you can change the email address after the "-C" argument to the maintainer's email address.
 
 ```bash
 ssh-keygen -t rsa -b 2048 -C "jude.x.zhu@newegg.com"
@@ -83,7 +83,7 @@ Using the passphrase to double secure the ssh login.
 
 The command will generate two files(These files are only example, will not be using in the real environment ):
 
-    - key:      This is the private key, which you need to keep saft to using loging the linux server
+    - key:      This is the private key, which you need to keep safe to using login the linux server
     - key.pub:  This is the public key, which need to copy to the CoreOS Linux Server 
 
 <img src="images/1/pub_key.png" Height="150">
@@ -176,7 +176,7 @@ The Cloud-init config file must start with `#cloud-config`
 #cloud-config
 ```
 
-Using this to set the hosname of the Container Linux
+Using this to set the hostname of the Container Linux
 
 ```yaml
 ##hostname
@@ -191,7 +191,7 @@ ssh_authorized_keys:
   - ssh-rsa AAAAB3NzaC1yc2EAAAA...7Wy9GGHYcZi1pICKS9IR jude.x.zhu@newegg.com #Paste your public rsa-key here.
 ```
 
-You might setup a speicial user with SSH-key, *for exmaple*: 
+You might setup a special user with SSH-key, *for example*: 
 
 ```yaml
 users:
@@ -275,7 +275,7 @@ Set the Time Zone and enable the NTP service
         RemainAfterExit=yes
         Type=oneshot
 ```
-Diable the Automatic update and Automatic reboot Services
+Disable the Automatic update and Automatic reboot Services
 
 ```yaml
     - name: update-engine.service
@@ -302,7 +302,7 @@ setup the network so the VM boot with LiveCD can access internet
 
 <img src="images/1/set_network.png" Height="450">
 
-Modify the cloud-config.yaml as you want, chmod +x to coreos-install and run install commadn as below :
+Modify the cloud-config.yaml as you want, chmod +x to coreos-install and run install command as below :
 
 ```bash
 ./coreos-install -d /dev/sda -C stable -c cloud-config.yaml 
@@ -321,7 +321,7 @@ reboot the server
 reboot
 ```
 
-Now our CoreOS has been installed sucessfully and ready to login
+Now our CoreOS has been installed successfully and ready to login
 
 <img src="images/1/reboot.png" Height="400">
 
