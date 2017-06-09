@@ -10,6 +10,16 @@ A lightweight Linux operating system designed for clustered deployments providin
 
 So basically except some core part of the Linux distribution, like the **kernel**, **systemd**, **sshd**, **docker**, **rkt** those which will be pre-installed in the CoreOS container linux, the others app all will be deployed as a container , even **ping**.
 
+- First Container optimized OS.
+- Linux based and based on concepts from ChromeOS
+- OS is Security focused.
+- Auto Update OS with A/B partition
+- OS is Open Source. Along with OS, CoreOS has following components:
+  - Systemd as Init system
+  - Etcd as distributed database
+  - Flannel for Container networking 
+  - Docker, Rkt for Containers
+- CoreOS integrates well with Kubernetes
 ___
 ## Environment Preparation 
 
