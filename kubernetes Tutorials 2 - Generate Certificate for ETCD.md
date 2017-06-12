@@ -54,8 +54,13 @@ Example application workload: ***A 1,000-node Kubernetes cluster***
 | AWS           | m4.2xlarge                  | 8      | 32           | 8000                 | 125                   |
 | GCE           | n1-standard-8 + 250GB PD SSD| 8      | 30           | 7500                 | 125                   |
 
+## Server Spec
+
 For our kubernetes scale , I chose the Medium Cluster
 
+|     VCPU      |     MEMORY(GB)      |     DISK(GB)      |
+|:-------------:|:-------------------:|:-----------------:|  
+|      8        |        16           |        100        |
 
 ## Failure Tolerance
 
@@ -79,15 +84,28 @@ We will choose the ClusterSize as 5 nodes and the Failure tolerance will be 2 no
 
 ## Security model
 
+[Reference](https://coreos.com/etcd/docs/latest/op-guide/security.html) 
+
 etcd supports automatic TLS as well as authentication through client certificates for both clients to server as well as peer (server to server / cluster) communication.
 
 To get up and running, first have a CA certificate and a signed key pair for one member. It is recommended to create and sign a new key pair for every member in a cluster.
 
-## [cfssl](https://github.com/cloudflare/cfssl)
+# Step by Step
+
+    -   Step 1: Download and setup cfssl
+    -   Step 2: Using cfssl generate the Configure CA options
+    -   Step 3: Generate CA certificate
+    -   Step 4: Generate server certificate
+    -   Step 5: Generate peer certificate
+    -   Step 6: Generate client certificate
+
+## Step 1: Download and setup cfssl
+
+## [Download cfssl from here](https://github.com/cloudflare/cfssl)
 
 We will use CFSSL to generate the certificate for our etcd cluster 
 
-Login to a Linux system and download the cfssl 
+Login to a Linux system and download the cfssl()
 
 ```bash
 mkdir ~/bin
@@ -100,6 +118,8 @@ export PATH=$PATH:~/bin
 The script first create a folder "bin" under your current account home folder. Then use curl to download the cfssl and cfssljson from the *"pkg.cfssl.org"*. Make them executable. Add "~/bin" to the system path env
 
 Then, let's create a folder for the certificates 
+
+## Step 2: Using cfssl generate the Configure CA options
 
 ```bash
 mkdir ~/cfssl
@@ -163,9 +183,8 @@ default ca-csr.json
 }
 
 ```
-___
 
-## Generate Certifications for etcd
+
 
 Let's modify the ca-config and ca-csr 
 
@@ -231,11 +250,12 @@ Modified ca-csr.json
 
 Basically we can have three profiles "server", "client" and "peer" which have different usages you can tell from the ***Modified ca-config.json***.
 
-The expiry has been set to ***"87600h"***, which is 10 years.
+The expiry has been set to "***87600h***", which is 10 years.
 
 And the key is using rsa with 2048 size.
 
-### Generate the CA certificate
+
+## Step 3: Generate CA certificate
 
 Use below command to generate the ***ca.csr***, ***ca-key.pem*** and the ***ca.pem***.
 
@@ -243,7 +263,6 @@ Use below command to generate the ***ca.csr***, ***ca-key.pem*** and the ***ca.p
 fssl gencert -initca ca-csr.json | cfssljson -bare ca -
 ```
 
-### Generate the certificate for ETCD nodes
 
 We have 5 nodes which are e11k8setcd01~05, for each node we will create the server profile type certificates and the peer profile type certificates.
 
@@ -253,22 +272,24 @@ We have 5 nodes which are e11k8setcd01~05, for each node we will create the serv
     -   fqdn:       e11k8setcd01.mercury.corp
     -   ip addr:    172.16.164.101
 
-Generate the server profile certs:
+## Step 4: Generate Server certificate
 
 ```bash
 echo '{"CN":"e11k8setcd01","hosts":[""],"key":{"algo":"rsa","size":2048}}' | cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=server -hostname="172.16.164.101,e11k8setcd01.mercury.corp,e11k8setcd01.local,e11k8setcd01" - | cfssljson -bare e11k8setcd01
 ``` 
 
-Generate the peer profile certs:
+## Step 5: Generate Peer certificate
 
 ```bash
 echo '{"CN":"e11k8setcd01","hosts":[""],"key":{"algo":"rsa","size":2048}}' | cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=peer -hostname="172.16.164.101,e11k8setcd01.mercury.corp,e11k8setcd01.local,e11k8setcd01" - | cfssljson -bare e11k8setcd01-peer
 ```
 
+## Step 6: Generate Client certificate
+
 Finally, let's generate the client certs for all the client need to connect to the etcd cluster
 
 ```bash
-cho '{"CN":"client","hosts":[""],"key":{"algo":"rsa","size":2048}}' | cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=client - | cfssljson -bare client
+echo '{"CN":"client","hosts":[""],"key":{"algo":"rsa","size":2048}}' | cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=client - | cfssljson -bare client
 ```
 ___
 
@@ -278,10 +299,10 @@ For 5 nodes , here is all the certs you will have to use eventually. And we will
 
 <img src="images/2/cert-list.png" height="158">
 
-***Tips***
+>***Tips***
     
 -   To separate the ca certificate from the etcd cluster and Kuberntes cluster (*They will all need to generate the ca cert files.*) You can see I've copy the CA cert file to a new "newegg-etcd-root-ca.pem".
 
--   Put those files or the whole folder into the http file server folder, so you can easily use the "*curl*" command download it to the CoreOS linux servers later.
+-   Put those files or the whole folder into the http file server, so you can easily use the "*curl*" or "*wget*"  command download it to the CoreOS linux servers later.
 
 We will talk about the etcd cluster installation later.
