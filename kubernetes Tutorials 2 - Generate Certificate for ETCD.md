@@ -80,7 +80,7 @@ It is recommended to have an odd number of members in a cluster. An odd-size clu
 |       8       |      5     |         3         |
 |       9       |      5     |         4         |
 
-We will choose the ClusterSize as 5 nodes and the Failure tolerance will be 2 nodes. If 3 nodes failed, it will turn to ReadOnly mode. Although all the kubernetes existed pods and services are still running , but no more operations can be executed. 
+>We will choose the ClusterSize as 5 nodes and the Failure tolerance will be 2 nodes. If 3 nodes failed, it will turn to ReadOnly mode. Although all the kubernetes existed pods and services are still running , but no more operations can be executed. 
 
 ## Security model
 
