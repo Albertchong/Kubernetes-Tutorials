@@ -168,7 +168,7 @@ Environment="ETCD_OPTS=--name e11k8setcd01 \
 
 ---
 
-## Step 3: Greate the etcd-member.service.d override.conf file
+## Step 3: Create the etcd-member.service.d override.conf file
 
 ```bash
 sudo mkdir -p /etc/systemd/system/etcd-member.service.d
@@ -218,4 +218,3 @@ sudo etcdctl  --ca-file /etc/ssl/certs/newegg-etcd-root-ca.pem --cert-file /etc/
 ```
 
 <img src="images/3/check_health.png" height="123">
-
