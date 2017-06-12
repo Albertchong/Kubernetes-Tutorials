@@ -2,4 +2,4 @@
 
 # Kubernetes_Architecture
 
-<img src="images/Kubernetes_Architecture.png" height="700" width="600">
+<img src="images/Kubernetes_Architecture.png" height="1050" width="900">
