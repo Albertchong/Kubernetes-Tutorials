@@ -406,6 +406,10 @@ and Also We can check the dockerhub and see different tags of the docker images 
 <img src="images/imagetags.png" width="500">
 
 
+## Clean UP
+
+Since draft deploys projects via helm, you can just run `helm delete --purge draft` to delete draft from the server. You can also invoke the same command for the applications you deployed to the cluster.
+
 ___
 
 ## Conclusion 
