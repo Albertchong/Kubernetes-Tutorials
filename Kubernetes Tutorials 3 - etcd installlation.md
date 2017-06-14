@@ -1,3 +1,10 @@
+---
+layout: post
+title: "Kubernetes Tutorials (3)"
+description: "How to install ETCD on CoreOS"
+tags: [Kubernetes, Docker]
+---
+
 ## Kubernetes Tutorials (3)
 
 # How to install ETCD on CoreOS 

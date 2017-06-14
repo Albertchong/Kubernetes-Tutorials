@@ -1,3 +1,10 @@
+---
+layout: post
+title: "Kubernetes Tutorials (1)"
+description: "How to install CoreOS Container Linux in the BareMetal/VM"
+tags: [Kubernetes, Docker]
+---
+
 ## Kubernetes Tutorials (1)
 
 # How to install CoreOS Container Linux in the BareMetal/VM

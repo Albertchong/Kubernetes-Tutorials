@@ -1,3 +1,10 @@
+---
+layout: post
+title: "Introducing Draft"
+description: "Introducing Draft"
+tags: [Kubernetes, Docker]
+---
+
 # Introducing Draft
 
 ## Draft: Streamlined Kubernetes Development

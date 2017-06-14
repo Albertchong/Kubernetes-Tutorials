@@ -1,3 +1,10 @@
+---
+layout: post
+title: "Kubernetes Tutorials (2)"
+description: "How to generate certificates for ETCD"
+tags: [Kubernetes, Docker]
+---
+
 ## Kubernetes Tutorials (2)
 
 # How to generate certificates for ETCD 

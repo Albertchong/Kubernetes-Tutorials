@@ -1,4 +1,11 @@
-## Kubernetes Tutorials (3)
+---
+layout: post
+title: "Kubernetes Tutorials (4)"
+description: "How to Monitoring etcd service on CoreOS"
+tags: [Kubernetes, Docker]
+---
+
+## Kubernetes Tutorials (4)
 
 # How to Monitoring and Backup etcd service on CoreOS 
 
