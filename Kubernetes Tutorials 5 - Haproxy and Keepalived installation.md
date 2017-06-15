@@ -428,5 +428,3 @@ Start the haproxy on the Master Node , and the VIP will move back.
 And if you set the Email alert right in the configuration, you would like to receive emails to tell you what happened to your haproxy servers, as below:
 
  <img src="images/5/email_alert.png" height="330"> 
-
- That's all.
