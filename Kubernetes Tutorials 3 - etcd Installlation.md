@@ -32,10 +32,10 @@ As we discussed at last tutorial , we will have 5 nodes , so the failure toleran
 |       ServerName     |    IP ADDRESS    |     VCPU      |     MEMORY(GB)      |     DISK(GB)      |
 |:--------------------:|:----------------:|:-------------:|:-------------------:|:-----------------:|
 |   E11K8SETCD01       |   172.16.164.101 |      8        |        16           |        100        |
-|   E11K8SETCD01       |   172.16.164.101 |      8        |        16           |        100        |
-|   E11K8SETCD01       |   172.16.164.101 |      8        |        16           |        100        |
-|   E11K8SETCD01       |   172.16.164.101 |      8        |        16           |        100        |
-|   E11K8SETCD01       |   172.16.164.101 |      8        |        16           |        100        |
+|   E11K8SETCD02       |   172.16.164.102 |      8        |        16           |        100        |
+|   E11K8SETCD03       |   172.16.164.103 |      8        |        16           |        100        |
+|   E11K8SETCD04       |   172.16.164.104 |      8        |        16           |        100        |
+|   E11K8SETCD05       |   172.16.164.105 |      8        |        16           |        100        |
 
 Also we prepare the certificates for etcd security by using the cfssl tool. (*If only running etcd cluster for evaluation purpose, you can skip the certificate part and using http, but for the production we strongly recommend adding TLS security to your etcd cluster.* )
 
