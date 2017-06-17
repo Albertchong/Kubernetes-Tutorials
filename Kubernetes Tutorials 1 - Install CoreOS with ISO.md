@@ -45,26 +45,36 @@ ___
 |   COREOS1       |   10.1.51.12 |      2        |        4           |        20        |
 
 
+> Note: If you don't know how to install CentOS 7. Here is a [Step by Step](https://www.howtoforge.com/tutorial/centos-7-minimal-server/) guild.
+
 ---
-# Step by Step on install CoreOS
+# Step 1: Centos1 configuration
 
 ### Reference - [CoreOS Installing to disk](https://coreos.com/os/docs/latest/installing-to-disk.html)
 
 
-## 1: Install CentOS 7 on centos1 and Disable Selinux
-
-> Note: If you don't know how to install CentOS 7. Here is a [Step by Step](https://www.howtoforge.com/tutorial/centos-7-minimal-server/) guild.
-
-Disable Selinux
-
-Login into centos01
+## 1: Login to Centos1
 
 ```bash
 [root@centos1 ~]#
 ```
 
+## 2: Test connection
 
-## 2: Generating a pair of Public/Private SSH Access Keys
+root@centos1 ~ $ ping www.newegg.com
+PING www.newegg.com (204.14.213.160) 56(84) bytes of data.
+64 bytes from 204.14.213.160: icmp_seq=1 ttl=245 time=70.7 ms
+64 bytes from 204.14.213.160: icmp_seq=2 ttl=245 time=70.9 ms
+
+
+## 3: Install Disable Selinux
+
+[root@centos1 ~]# vi /etc/selinux/config
+
+Change SELINUX=disabled
+
+
+## 4: Generating a pair of Public/Private SSH Access Keys
 
 Make a new folder to save the Public/Private keys.
 
@@ -123,7 +133,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDV/DpQ8veDFrOBCZcCzVnOJhLunhOTlYctErXZ0kXX
 [root@centos1 ~]#
 ```
 
-## 3: Create Cloud-init Config File
+## 5: Create Cloud-init Config File
 
 
 ### Cloud-init Config File
@@ -236,7 +246,7 @@ write_files:
 ```
 
 
-## 4: Start httpd service
+## 6: Start httpd service
 
 Install and start the Apache httpd service.
 
@@ -270,18 +280,20 @@ curl http://10.1.51.11/CoreOS/cloud-config.yaml
 > Replace `10.1.51.11` with your own IP address.
 
 
-## 5: Download CoreOS ISO
+# Step 2: Coreos1 installation
+
+## 1: Download CoreOS ISO into your local PC
 
 Download the CoreOS ISO file from [Here](https://stable.release.core-os.net/amd64-usr/current/coreos_production_iso_image.iso).
 
 
-## 6: Boot coreos1 with CoreOS ISO
+## 2: Boot coreos1 from CoreOS ISO
 
 We've done the part of the centos1, let's 
 
 <img src="images/1/coreos_iso.png" Height="500">
 
-## 6: Set IP address, Gateway and DNS
+## 3: Set IP address, Gateway and DNS
 
 Use `ip a` command to list the nic card,
 
@@ -301,7 +313,7 @@ Add DNS
 ```
 echo 'nameserver 8.8.8.8' | sudo tee --append /etc/resolv.conf
 ```
-## 7: Download cloud-config.yaml
+## 4: Download cloud-config.yaml
 
 Download cloud-config.yaml to your coreos1.
 
@@ -311,7 +323,7 @@ wget http://10.1.51.11/CoreOS/cloud-config.yaml
 
 Modify the ***variables*** inside the `cloud-config.yaml` if you need.
 
-## 8: Install CoreOS to the disk
+## 5: Install CoreOS to the disk
 
 Run
 
@@ -323,7 +335,7 @@ After you see `Success! CoreOS stable XXXX.X.X is installed on /dev/sda`.
 
 `reboot` the server.
 
-## 9: Verify
+# Step 3: Verify
 
 Go back to centos1
 
