@@ -1,5 +1,43 @@
 # Kubernetes-Tutorials
 
+# Features
+
+## Addons
+    Kubernetes Dashboard    
+    Kube-DNS 
+
+## Security 
+    Calico Network Policy   
+    APIServer Auilt Logs        
+    RBAC                                  
+
+## Monitoring
+    Heapster                           
+    InfluxDB                              
+    Grafana                             
+    Prometheus                      
+    AlertManger                     
+    Slack Channel Alert       
+    Email  Alert                       
+    Node-exporter                 
+
+## Logging
+    Flunted                               
+    ElasticSearch                   
+    Kibana                               
+
+## Services
+    Traefik Ingress                  
+
+## Package mangerment 
+    Helm                                   
+
+## Storage
+    CephRBD                           
+    CephFS                              
+    NFS                                      
+
+
 # Network Range
 
 *   Node IP :   172.16.164.0/24
