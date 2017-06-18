@@ -24,10 +24,10 @@
 |E11K8SMA01|172.16.164.111|8|32|200|Kubernetes Master Node|
 |E11K8SMA02|172.16.164.112|8|32|200|Kubernetes Master Node|
 |E11K8SMA03|172.16.164.113|8|32|200|Kubernetes Master Node|
-|E11K8SMA01|172.16.164.121|8|32|200|Kubernetes Worker Node|
-|E11K8SMA02|172.16.164.112|8|32|200|Kubernetes Worker Node|
+|E11K8SWK01|172.16.164.121|8|32|200|Kubernetes Worker Node|
+|E11K8SWK02|172.16.164.112|8|32|200|Kubernetes Worker Node|
 |...|...|...|...|...|...|
-|E11K8SMA27|172.16.164.147|8|32|200|Kubernetes Worker Node|
+|E11K8SWK27|172.16.164.147|8|32|200|Kubernetes Worker Node|
 
 
 
