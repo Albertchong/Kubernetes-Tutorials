@@ -182,11 +182,11 @@ sudo mkdir -p /etc/systemd/system/etcd-member.service.d
 sudo mv /tmp/override-my-etcd-1.conf /etc/systemd/system/etcd-member.service.d/override.conf
 ```
 
-## Step 4: Check service-file-override status
+<!--## Step 4: Check service-file-override status-->
 
-```bash
+<!--```bash
 sudo systemd-delta --type=extended
-```
+```-->
 
 ## Step 5: Start etcd-member.service
 
