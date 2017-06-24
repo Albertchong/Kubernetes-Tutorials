@@ -38,10 +38,10 @@ Next, let's focus this Haproxy + Keepalived part and prepare for the Kubernetes 
     IP       :  172.16.164.109
 ## Server List 
 
-|       ServerName     |    IP ADDRESS    |     VCPU      |     MEMORY(GB)      |     DISK(GB)      |
-|:--------------------:|:----------------:|:-------------:|:-------------------:|:-----------------:|
-|   E11K8SHAPX01       |   172.16.164.108 |      4        |         4           |         40        |
-|   E11K8SHAPX02       |   172.16.164.109 |      4        |         4           |         40        |
+|   ServerName  |   IP Address  |   vCPU    |   Memory(GB)  |   HDisk(GB)   |   Descriptions |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+|E11K8SHAPX01|172.16.164.108|4|4|60|Haproxy & Keepalived (VIP: 172.16.164.110)|
+|E11K8SHAPX02|172.16.164.109|4|4|60|Haproxy & Keepalived (VIP: 172.16.164.110)|
 
 
 ___
@@ -112,7 +112,21 @@ vrrp_instance VI_1 {
     }
 ``` 
 
-Save and Exit
+> Replacing `notification_email` to the email address you used to receive the alerts email when something goes wrong with your haproxy servers.
+
+> Replacing `haproxy@e11k8shapx01` to the name you want to send the alert email. It doesn't need to be a real email address. Both side should be different, so you can tell which server is sending you the email from the different names.
+
+> Replacing `smtp_server 10.1.37.41` ip address with your own smtp server.
+
+> Replacing `router_id E11ECHAPX` with your own router_id name, you should keep the same with both master and backup.
+
+> Replacing the `interface eno16780032` with your own true NIC name. You can use `ip a` to check the NIC.
+
+> Replacing `172.16.164.110 brd 172.16.15.255 dev eno16780032` with your own VIP address, broadcast ip address and the NIC name. 
+
+> `state MASTER` and `priority 101` on MASTER node.
+
+Save and exit.
 
 Do the same on the Backup Node, but the config would a little different:
 
@@ -123,7 +137,7 @@ global_defs {
    notification_email {
      jude.x.zhu@newegg.com
    }
-   notification_email_from haproxy@e11k8shapx01
+   notification_email_from haproxy@e11k8shapx02
    smtp_server 10.1.37.41
    smtp_connect_timeout 30
    router_id E11ECHAPX
@@ -156,6 +170,10 @@ vrrp_instance VI_1 {
     }
 }
 ``` 
+
+> Replacing the relate field on the BACKUP node just like the MASTER node. 
+
+> `state BACKUP` and `priority 100` on MASTER node.
 
 Don' start the services yet. We will do it after install haproxy.(If you look carefully on the keepalived configuration, you will figure out why.)
 
@@ -252,27 +270,6 @@ listen e11k8sma_apiserver_443
         server e11k8sma02 172.16.164.112:443 check
         server e11k8sma03 172.16.164.113:443 check
     
-##---------------------------------------------------------------------
-## e11k8s ingress
-##---------------------------------------------------------------------
-listen e11k8s_ingress_80
-    bind 0.0.0.0:80
-    mode http
-        balance roundrobin
-        server e11k8swk01 172.16.164.121:80 check
-        server e11k8swk03 172.16.164.123:80 check
-        server e11k8swk05 172.16.164.125:80 check
-
-##---------------------------------------------------------------------
-## s7mariadb ingress
-##---------------------------------------------------------------------
-listen s7mariadb_3306
-    bind 0.0.0.0:3306
-    mode tcp
-        balance roundrobin
-        server s7mariadb01 172.16.76.61:3306 check
-        server s7mariadb02 172.16.76.62:3306 check
-        server s7mariadb03 172.16.76.63:3306 check
 
 ##---------------------------------------------------------------------
 ## health status
@@ -299,6 +296,8 @@ listen stats 0.0.0.0:9000       #Listen on all IP's on port 9000
     #This will produce an error on older versions of HAProxy.
     stats admin if TRUE
 ```
+
+> Replacing the related server names and ip addresses to your own server names and ip addresses.
 
 ## Step 5: Start and Enable Services
 

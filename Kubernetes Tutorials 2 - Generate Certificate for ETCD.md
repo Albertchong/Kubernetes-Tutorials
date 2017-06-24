@@ -97,6 +97,10 @@ etcd supports automatic TLS as well as authentication through client certificate
 
 To get up and running, first have a CA certificate and a signed key pair for one member. It is recommended to create and sign a new key pair for every member in a cluster.
 
+# Attention : 
+
+## Before start, make sure all the servers have the time proper synced and Selinux disabled on CentOS. 
+
 # Step by Step
 
     -   Step 1: Download and setup cfssl
@@ -108,11 +112,14 @@ To get up and running, first have a CA certificate and a signed key pair for one
 
 ## Step 1: Download and setup cfssl
 
-## [Download cfssl from here](https://github.com/cloudflare/cfssl)
 
-We will use CFSSL to generate the certificate for our etcd cluster 
+We will use cfssl on our ca server to generate the certificate for our etcd cluster 
 
-Login to a Linux system and download the cfssl()
+|   ServerName  |   IP Address  |   vCPU    |   Memory(GB)  |   HDisk(GB)   |   Descriptions |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+|E11K8SCA01|172.16.164.99|2|2|20|Certificates Generator & Http File Service|
+
+Login to the ca server, e.g., e11k8sca01.mercury.corp. Download the cfssl with below commands.
 
 ```bash
 mkdir ~/bin
@@ -291,6 +298,8 @@ echo '{"CN":"e11k8setcd01","hosts":[""],"key":{"algo":"rsa","size":2048}}' | cfs
 echo '{"CN":"e11k8setcd01","hosts":[""],"key":{"algo":"rsa","size":2048}}' | cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=peer -hostname="172.16.164.101,e11k8setcd01.mercury.corp,e11k8setcd01.local,e11k8setcd01" - | cfssljson -bare e11k8setcd01-peer
 ```
 
+> ### We will need to run above commands for all the etcd nodes, which is 5 times. 
+
 ## Step 6: Generate Client certificate
 
 Finally, let's generate the client certs for all the client need to connect to the etcd cluster
@@ -304,12 +313,40 @@ ___
 
 For 5 nodes , here is all the certs you will have to use eventually. And we will use them later.
 
-<img src="images/2/cert-list.png" height="158">
-
->***Tips***
+```
+[root@e11k8sca01 cfssl]# ls
+ca-config.json  client-key.pem             e11k8setcd01-peer.pem      e11k8setcd02-peer.pem      e11k8setcd03-peer.pem      e11k8setcd04-peer.pem      e11k8setcd05-peer.pem
+ca.csr          client.pem                 e11k8setcd01.pem           e11k8setcd02.pem           e11k8setcd03.pem           e11k8setcd04.pem           e11k8setcd05.pem
+ca-csr.json     e11k8setcd01.csr           e11k8setcd02.csr           e11k8setcd03.csr           e11k8setcd04.csr           e11k8setcd05.csr           newegg-etcd-root-ca.pem
+ca-key.pem      e11k8setcd01-key.pem       e11k8setcd02-key.pem       e11k8setcd03-key.pem       e11k8setcd04-key.pem       e11k8setcd05-key.pem
+ca.pem          e11k8setcd01-peer.csr      e11k8setcd02-peer.csr      e11k8setcd03-peer.csr      e11k8setcd04-peer.csr      e11k8setcd05-peer.csr
+client.csr      e11k8setcd01-peer-key.pem  e11k8setcd02-peer-key.pem  e11k8setcd03-peer-key.pem  e11k8setcd04-peer-key.pem  e11k8setcd05-peer-key.pem
+```
     
 -   To separate the ca certificate from the etcd cluster and Kuberntes cluster (*They will all need to generate the ca cert files.*) You can see I've copy the CA cert file to a new "newegg-etcd-root-ca.pem".
 
+```
+cp ca.pem newegg-etcd-root-ca.pem
+```
+
 -   Put those files or the whole folder into the http file server, so you can easily use the "*curl*" or "*wget*"  command download it to the CoreOS linux servers later.
+
+```
+yum install httpd -y
+systemctl enable httpd --now
+
+chmod o+x /root
+chmod o+x /root/cfssl
+
+chmod 644 /root/cfssl/*key.pem
+
+ln -s /root/cfssl /var/www/html
+```
+
+Open a browser check
+
+http://{ca-server-ip}/cfssl to see if all the certificates are there.
+
+## 
 
 We will talk about the etcd cluster installation later.

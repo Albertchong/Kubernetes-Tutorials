@@ -29,13 +29,13 @@ For etcd binary only support etcd v2 right now. We will use etcd.member services
 
 As we discussed at last tutorial , we will have 5 nodes , so the failure tolerance would be 2.  
 
-|       ServerName     |    IP ADDRESS    |     VCPU      |     MEMORY(GB)      |     DISK(GB)      |
-|:--------------------:|:----------------:|:-------------:|:-------------------:|:-----------------:|
-|   E11K8SETCD01       |   172.16.164.101 |      8        |        16           |        100        |
-|   E11K8SETCD02       |   172.16.164.102 |      8        |        16           |        100        |
-|   E11K8SETCD03       |   172.16.164.103 |      8        |        16           |        100        |
-|   E11K8SETCD04       |   172.16.164.104 |      8        |        16           |        100        |
-|   E11K8SETCD05       |   172.16.164.105 |      8        |        16           |        100        |
+|   ServerName  |   IP Address  |   vCPU    |   Memory(GB)  |   HDisk(GB)   |   Descriptions |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+|E11K8SETCD01|172.16.164.101|8|16|100|ETCD Cluster(Kubernetes Key-Value DataBase)|
+|E11K8SETCD02|172.16.164.102|8|16|100|ETCD Cluster(Kubernetes Key-Value DataBase)|
+|E11K8SETCD03|172.16.164.103|8|16|100|ETCD Cluster(Kubernetes Key-Value DataBase)|
+|E11K8SETCD04|172.16.164.104|8|16|100|ETCD Cluster(Kubernetes Key-Value DataBase)|
+|E11K8SETCD05|172.16.164.105|8|16|100|ETCD Cluster(Kubernetes Key-Value DataBase)|
 
 Also we prepare the certificates for etcd security by using the cfssl tool. (*If only running etcd cluster for evaluation purpose, you can skip the certificate part and using http, but for the production we strongly recommend adding TLS security to your etcd cluster.* )
 
@@ -56,6 +56,8 @@ ___
 ## Step 1: Copy the certs files to the local server 
 
 Repeat below steps on every etcd numbers. (*client.pem and client-key.pem are only download for testing, You can skip download them if you want.*)
+
+> Replacing "172.16.164.99" with your own CA-Server-IP
 
 ```bash
 cd /etc/ssl/certs
@@ -81,7 +83,7 @@ Environment="ETCD_IMAGE_TAG=v3.1.5"
 Environment="ETCD_DATA_DIR=/var/lib/etcd"
 Environment="ETCD_SSL_DIR=/etc/ssl/certs"
 Environment="ETCD_OPTS=--name e11k8setcd01 \
-    --listen-client-urls https://172.16.164.101:2379,http://127.0.0.1:2379 \
+    --listen-client-urls https://172.16.164.101:2379 \
     --advertise-client-urls https://172.16.164.101:2379 \
     --listen-peer-urls https://172.16.164.101:2380 \
     --initial-advertise-peer-urls https://172.16.164.101:2380 \
@@ -215,13 +217,23 @@ sudo systemctl enable etcd-member.service --now
 ## Step 6: Check the log
 
 ```bash
-sudo journalctl -b -u etcd-member -f
+sudo journalctl -b -fu etcd-member
 ```
 
 ## Step 7: Check the Cluster Health
 
 ```bash
-sudo etcdctl  --ca-file /etc/ssl/certs/newegg-etcd-root-ca.pem --cert-file /etc/ssl/certs/client.pem --key-file /etc/ssl/certs/client-key.pem  cluster-health
+core@e11k8setcd01 ~ $ sudo etcdctl  --endpoints=https://172.16.164.101:2379 --ca-file /etc/ssl/certs/newegg-etcd-root-ca.pem --cert-file /etc/ssl/certs/client.pem --key-file /etc/ssl/certs/cl
+ient-key.pem  cluster-health
 ```
 
-<img src="images/3/check_health.png" height="123">
+```
+member 7716cedd37784e89 is healthy: got healthy result from https://172.16.164.102:2379
+member 7ce6dd6dafb1013d is healthy: got healthy result from https://172.16.164.104:2379
+member 844b864e5e37e9a6 is healthy: got healthy result from https://172.16.164.105:2379
+member af3e4b2f5bf6f3e5 is healthy: got healthy result from https://172.16.164.103:2379
+member d5b8f6767eb207fc is healthy: got healthy result from https://172.16.164.101:2379
+cluster is healthy
+```
+
+
