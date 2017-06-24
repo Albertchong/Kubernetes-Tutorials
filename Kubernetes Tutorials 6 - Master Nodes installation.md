@@ -536,6 +536,6 @@ kube-apiserver-172.16.164.111
 
 ## Step 13: Repeat all above steps on the other two nodes 
 
-Now you shall also check the haproxy status ann see all green.
+Now you shall also check the haproxy status and see all green.
 
 <img src="images/5/haproxy_stats.png" height="400"> 
