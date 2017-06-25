@@ -5,6 +5,10 @@ description: "How to Install Kubernetes Master Nodes"
 tags: [Kubernetes, Docker]
 ---
 
+# Kubernetes Tutorials (6)
+
+## How to Install Kubernetes Master Nodes
+
 # Server List 
 
 |   ServerName  |   IP Address  |   vCPU    |   Memory(GB)  |   HDisk(GB)   |   Descriptions |
@@ -273,7 +277,6 @@ ExecStart=/usr/lib/coreos/kubelet-wrapper \
   --hostname-override=172.16.164.111 \
   --cluster_dns=10.3.0.10 \
   --cluster_domain=cluster.local
-  --allow-privileged=true
 ExecStop=-/usr/bin/rkt stop --uuid-file=/var/run/kubelet-pod.uuid
 Restart=always
 RestartSec=10
@@ -323,7 +326,6 @@ spec:
     - --etcd-certfile=/etc/kubernetes/ssl/client.pem
     - --etcd-keyfile=/etc/kubernetes/ssl/client-key.pem
     - --authorization-mode=RBAC
-    - --allow-privileged=true
     - --storage-backend=etcd3
     - --audit-log-maxage=7
     - --audit-log-maxbackup=7
@@ -488,6 +490,22 @@ spec:
 
 ## Step 11: Start Services
 
+### Daemon Reload
+
+```
+sudo systemctl daemon-reload
+```
+
+> Tips: Everytime you change the configuration under the `/etc/systemd`, you have to run `systemctl daemon-reload`.
+
+### Create POD_NETWORK on etcd
+
+```
+curl --cacert /etc/kubernetes/ssl/newegg-etcd-root-ca.pem --cert /etc/kubernetes/ssl/client.pem --key /etc/kubernetes/ssl/client-key.pem -X PUT -d "value={\"Network\":\"10.2.0.0/16\",\"Backend\":{\"Type\":\"vxlan\"}}" "https://172.16.164.101:2379/v2/keys/coreos.com/network/config"
+```
+
+> Replacing `https://172.16.164.101:2379` with one url (http://ip:port) from $ETCD_ENDPOINTS.
+
 ### Start the flanneld service
 
 ```
@@ -504,9 +522,14 @@ sudo systemctl enable kubelet --now
 
 ## Step 12: Basic Check
 
+Check command 1: 
+
 ```
 core@e11k8sma01 ~ $ curl http://127.0.0.1:8080/version
 ```
+
+Output:
+
 ```
 {
   "major": "1",
@@ -521,9 +544,13 @@ core@e11k8sma01 ~ $ curl http://127.0.0.1:8080/version
 }
 ```
 
+Check command 2: 
+
 ```
 core@e11k8sma01 ~ $ curl -s localhost:10255/pods | jq -r '.items[].metadata.name'
 ```
+
+Output:
 
 ```
 kube-controller-manager-172.16.164.111
