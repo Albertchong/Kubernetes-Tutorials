@@ -119,7 +119,7 @@ Environment="ETCD_OPTS=--name e11k8setcd01 \
 
 
 ```
-    --listen-client-urls https://172.16.164.101:2379,http://127.0.0.1:2379 \
+    --listen-client-urls https://172.16.164.101:2379 \
     --advertise-client-urls https://172.16.164.101:2379 \
 ```
 
