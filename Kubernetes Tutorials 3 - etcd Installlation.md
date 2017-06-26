@@ -53,9 +53,10 @@ ___
     - Step 6: Check the log
     - Step 7: Check the Cluster Health
 
-## Step 1: Copy the certs files to the local server 
+Repeat below steps on every etcd numbers. 
 
-Repeat below steps on every etcd numbers. (*client.pem and client-key.pem are only download for testing, You can skip download them if you want.*)
+## Step 1: Copy the certs files to the local server 
+(*client.pem and client-key.pem are only download for testing, You can skip download them if you want.*)
 
 > Replacing "172.16.164.99" with your own CA-Server-IP
 
