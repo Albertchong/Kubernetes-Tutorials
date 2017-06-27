@@ -65,6 +65,12 @@ Here is the official prometheus docker image web-page.
 
 <img src="images/4/prometheus_images.png" height="500">
 
+Let's login the CA server as root
+
+|   ServerName  |   IP Address  |   vCPU    |   Memory(GB)  |   HDisk(GB)   |   Descriptions |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+|E11K8SCA01|172.16.164.99|2|2|20|Certificates Generator & Http File Service|
+
 ## Step 1: Pull the images 
 
 ```bash
