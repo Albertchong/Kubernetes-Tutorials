@@ -204,6 +204,8 @@ Access the `http://${docker_host_ip}:9090`
 
 Let's review the `targets`, we can see the job name `etcd3` there and all 5 nodes' state are `'UP'`.
 
+
+<img src="images/4/prometheus_target_2.png" height="330">
 <img src="images/4/prometheus_target.png" height="350">
 
 Now we know the prometheus works properly.
