@@ -223,7 +223,7 @@ Grafana allows you to query, visualize, alert on and understand your metrics no 
 ## Step 1: Pull the image
 
 ```bash
-docker pull prom/prometheus
+docker pull grafana/grafana
 ```
 
 ## Step2: Run the grafana docker container 
