@@ -274,7 +274,7 @@ And the key is using rsa with 2048 size.
 Use below command to generate the ***ca.csr***, ***ca-key.pem*** and the ***ca.pem***.
 
 ```bash
-fssl gencert -initca ca-csr.json | cfssljson -bare ca -
+cfssl gencert -initca ca-csr.json | cfssljson -bare ca -
 ```
 
 
