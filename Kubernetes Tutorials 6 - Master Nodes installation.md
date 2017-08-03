@@ -134,17 +134,21 @@ Open a browser check
 
 http://{ca-server-ip}/k8sssl to see if all the certificates are there.
 
-## Step 5: Install Master Nodes with CoreOS.
 
-## Step 6: Copy the certificates to the Master Nodes.
-
-Login 
+## Step 5: Install CoreOS into following Master Node
+=======
 
 |   ServerName  |   IP Address  |   vCPU    |   Memory(GB)  |   HDisk(GB)   |   Descriptions |
 |:---:|:---:|:---:|:---:|:---:|:---:|
 |E11K8SMA01|172.16.164.111|8|32|200|Kubernetes Master Node|
 |E11K8SMA02|172.16.164.112|8|32|200|Kubernetes Master Node|
 |E11K8SMA03|172.16.164.113|8|32|200|Kubernetes Master Node|
+
+Follow Kubernetes-Tutorials (1) on CoreOS installation step. 
+
+## Step 6: Copy the certificates to the Master Nodes.
+
+Login to all three master nodes after installation and follow the steps in below. 
 
 ### Create Create /etc/kubernetes/ssl
 
