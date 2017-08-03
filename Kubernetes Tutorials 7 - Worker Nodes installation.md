@@ -79,8 +79,9 @@ e11k8swk02-worker.csr      e11k8swk06-worker.pem      e11k8swk11-worker-key.pem 
 e11k8swk02-worker-key.pem  e11k8swk07-worker.csr      e11k8swk11-worker.pem      e11k8swk16-worker-key.pem  e11k8swk21-worker.csr      e11k8swk25-worker.pem
 
 ```
+## Step 3: Install Worker Nodes with CoreOS.
 
-## Step 3: Copy the certificates to the worker nodes
+## Step 4: Copy the certificates to the worker nodes
 
 Login 
 
@@ -121,7 +122,7 @@ sudo ln -s ${WORKER_FQDN}-worker-key.pem worker-key.pem
 
 > Repeat above step on all your worker nodes.
 
-## Step 4: Create configuration files folders
+## Step 5: Create configuration files folders
 
 ```
 sudo mkdir -p /etc/flannel
@@ -132,7 +133,7 @@ sudo mkdir -p /etc/kubernetes/manifests
 sudo mkdir -p /etc/systemd/system/docker.service.d
 ``` 
 
-## Step 5: Flannel configuration
+## Step 6: Flannel configuration
 
 ### /etc/flannel/options.env
 
@@ -156,7 +157,7 @@ FLANNELD_ETCD_KEYFILE=/etc/kubernetes/ssl/client-key.pem
 ExecStartPre=/usr/bin/ln -sf /etc/flannel/options.env /run/flannel/options.env
 ```
 
-## Step 6: Docker Configurations
+## Step 7: Docker Configurations
 
 ### /etc/systemd/system/docker.service.d/40-flannel.conf
 
@@ -187,7 +188,7 @@ DOCKER_OPT_IPMASQ=""
 }
 ```
 
-## Step 7: Kubelet Service
+## Step 8: Kubelet Service
 
 ### /etc/systemd/system/kubelet.service
 
@@ -239,7 +240,7 @@ WantedBy=multi-user.target
 
 > Replacing `KUBELET_IMAGE_TAG=v1.6.3_coreos.0` with your favor value , for more detail you can check the Link: [https://quay.io/repository/coreos/hyperkube?tab=tags](https://quay.io/repository/coreos/hyperkube?tab=tags)
 
-## Step 8: Kube Proxy
+## Step 9: Kube Proxy
 
 ### /etc/kubernetes/manifests/kube-proxy.yaml
 
@@ -306,7 +307,7 @@ contexts:
 current-context: kubelet-context
 ```
 
-## Step 9: Start the Services
+## Step 10: Start the Services
 
 ### Daemon Reload
 
@@ -326,7 +327,7 @@ sudo systemctl enable flanneld --now
 sudo systemctl enable kubelet --now
 ```
 
-## Step 10: Basic Check
+## Step 11: Basic Check
 
 Check command 1:
 
