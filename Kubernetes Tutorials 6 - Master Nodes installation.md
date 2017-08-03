@@ -7,7 +7,9 @@ tags: [Kubernetes, Docker]
 
 # Kubernetes Tutorials (6)
 
-## How to Install Kubernetes Master Nodes
+## How to Install Kubernetes Master Nodes on Coreos
+
+### First install 3 coreos node as server list below
 
 # Server List 
 
