@@ -9,7 +9,7 @@ tags: [Kubernetes, Docker]
 
 ## How to Install Kubernetes Master Nodes on Coreos
 
-### First install 3 coreos node as server list below
+### First install 3 coreos node as the list below.
 
 # Server List 
 
@@ -134,8 +134,9 @@ Open a browser check
 
 http://{ca-server-ip}/k8sssl to see if all the certificates are there.
 
+## Step 5: Install Master Nodes with CoreOS.
 
-## Step 5: Copy the certificates to the Master Nodes.
+## Step 6: Copy the certificates to the Master Nodes.
 
 Login 
 
@@ -178,7 +179,7 @@ drwxr-xr-x. 5 root root 4096 May 12 15:21 ..
 -rw-r--r--. 1 root root 1371 May 12 15:13 newegg-etcd-root-ca.pem
 ```
 
-## Step 5: Create configuration folders
+## Step 7: Create configuration folders
 
 ```
 sudo mkdir -p /etc/flannel/
@@ -189,7 +190,7 @@ sudo mkdir -p /etc/kubernetes/cni/net.d/
 sudo mkdir -p /etc/kubernetes/manifests
 ```
 
-## Step 6: Flannel Configurations
+## Step 8: Flannel Configurations
 
 ### /etc/flannel/options.env
 
@@ -213,7 +214,7 @@ FLANNELD_ETCD_KEYFILE=/etc/kubernetes/ssl/client-key.pem
 ExecStartPre=/usr/bin/ln -sf /etc/flannel/options.env /run/flannel/options.env
 ```
 
-## Step 7: Docker Configurations
+## Step 9: Docker Configurations
 
 ### /etc/systemd/system/docker.service.d/40-flannel.conf
 
@@ -244,7 +245,7 @@ DOCKER_OPT_IPMASQ=""
 }
 ```
 
-## Step 7: Kubelet Service
+## Step 10: Kubelet Service
 
 ### /etc/systemd/system/kubelet.service
 
@@ -293,7 +294,7 @@ WantedBy=multi-user.target
 
 > Replacing the `--hostname-override=172.16.164.111` with your current master node real ip address.
 
-## Step 8: Kubernetes APIServer
+## Step 11: Kubernetes APIServer
 
 ### /etc/kubernetes/manifests/kube-apiserver.yaml
 
@@ -374,7 +375,7 @@ spec:
 
 > Replacing `- --advertise-address=172.16.164.110` with your APIServers VIP address.
 
-## Step 8: Kube Proxy
+## Step 12: Kube Proxy
 ### /etc/kubernetes/manifests/kube-proxy.yaml
 
 ```
@@ -406,7 +407,7 @@ spec:
 
 > Replacing `image: quay.io/coreos/hyperkube:v1.6.3_coreos.0` with your kubernetes version, must be same with all your kubernetes components settings.
 
-## Step 9 : Kube Controller Manager
+## Step 13 : Kube Controller Manager
 
 ### /etc/kubernetes/manifests/kube-controller-manager.yaml
 
@@ -456,7 +457,7 @@ spec:
 
 > Replacing `image: quay.io/coreos/hyperkube:v1.6.3_coreos.0` with your kubernetes version, must be same with all your kubernetes components settings.
 
-## Step 10: Kube Scheduler
+## Step 14: Kube Scheduler
 
 ### /etc/kubernetes/manifests/kube-scheduler.yaml
 
@@ -490,7 +491,7 @@ spec:
 
 > Replacing `image: quay.io/coreos/hyperkube:v1.6.3_coreos.0` with your kubernetes version, must be same with all your kubernetes components settings.
 
-## Step 11: Start Services
+## Step 15: Start Services
 
 ### Daemon Reload
 
@@ -522,7 +523,7 @@ sudo systemctl enable kubelet --now
 
 > Tips: If something wrong with the services , you can use `sudo journalctl -b -fu {Service.Name}` to check the service log. Replace the {Service.Name} with "flanneld" or "kubelet".
 
-## Step 12: Basic Check
+## Step 16: Basic Check
 
 Check command 1: 
 
@@ -563,7 +564,7 @@ alert-horse-prometheus-node-exporter-wnld9
 kube-apiserver-172.16.164.111
 ```
 
-## Step 13: Repeat all above steps on the other two nodes 
+## Step 17: Repeat all above steps on the other two nodes 
 
 Now you shall also check the haproxy status and see all green.
 
