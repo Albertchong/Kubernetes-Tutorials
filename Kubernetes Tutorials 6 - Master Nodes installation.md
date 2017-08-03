@@ -7,7 +7,9 @@ tags: [Kubernetes, Docker]
 
 # Kubernetes Tutorials (6)
 
-## How to Install Kubernetes Master Nodes
+## How to Install Kubernetes Master Nodes on Coreos
+
+### First install 3 coreos node as the list below.
 
 # Server List 
 
@@ -134,6 +136,7 @@ http://{ca-server-ip}/k8sssl to see if all the certificates are there.
 
 
 ## Step 5: Install CoreOS into following Master Node
+=======
 
 |   ServerName  |   IP Address  |   vCPU    |   Memory(GB)  |   HDisk(GB)   |   Descriptions |
 |:---:|:---:|:---:|:---:|:---:|:---:|
