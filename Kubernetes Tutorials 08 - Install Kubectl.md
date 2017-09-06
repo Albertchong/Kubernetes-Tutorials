@@ -75,7 +75,7 @@ mv kubectl /usr/local/bin/kubectl
 Setup the cluster
 
 ```
-kubectl config set-cluster default-cluster --server=https://10.1.51.110 --certificate-authority=/etc/kubernetes/ssl/ca.pem
+kubectl config set-cluster default-cluster --server=https://172.16.164.110 --certificate-authority=/etc/kubernetes/ssl/ca.pem
 ```
 
 Setup the user
