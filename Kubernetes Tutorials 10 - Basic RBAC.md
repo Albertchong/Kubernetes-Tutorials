@@ -139,6 +139,10 @@ subjects:
   name: system:nodes
 ```
 
+```bash
+kubectl create -f node-proxier.yaml
+```
+
 > Tips: If you're not interested about why we need this. You don't need to read below information, you can directly jump to the next chapter to create the kube-DNS.
 
 Remember when we create the certificate for the worker node we used  `-subj "/O=system:nodes/CN=system:node:{{ip address}}"` ?
