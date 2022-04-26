@@ -216,7 +216,8 @@ Modified ca-config.json
                 "usages": [
                     "signing",
                     "key encipherment",
-                    "server auth"
+                    "server auth",
+                    "client auth"
                 ]
             },
             "client": {
